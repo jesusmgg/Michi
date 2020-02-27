@@ -1,0 +1,1 @@
+Language and compiler made for learning purposes.
