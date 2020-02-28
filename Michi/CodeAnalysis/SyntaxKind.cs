@@ -20,6 +20,7 @@ namespace Michi.CodeAnalysis
         // Expressions
         LiteralExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        UnaryExpression,
+        ParenthesizedExpression,
     }
 }

@@ -62,7 +62,19 @@ namespace Michi.CodeAnalysis
 
         ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
-            ExpressionSyntax left = ParsePrimaryExpression();
+            ExpressionSyntax left;
+
+            int unaryOperatorPrecedence = Current.Kind.GetUnaryOperationPrecedence();
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+            {
+                var operatorToken = NextToken();
+                var operand = ParseExpression(unaryOperatorPrecedence);
+                left = new UnaryExpressionSyntax(operatorToken, operand);
+            }
+            else
+            {
+                left = ParsePrimaryExpression();
+            }
 
             while (true)
             {
@@ -76,8 +88,6 @@ namespace Michi.CodeAnalysis
 
             return left;
         }
-
-        
 
         ExpressionSyntax ParsePrimaryExpression()
         {
