@@ -17,10 +17,16 @@ namespace Michi.CodeAnalysis.Syntax
         OpenParenthesisToken,
         CloseParenthesisToken,
         
+        IdentifierToken,
+        
+        // Keywords
+        FalseKeyword,
+        TrueKeyword,
+        
         // Expressions
         LiteralExpression,
-        BinaryExpression,
         UnaryExpression,
-        ParenthesizedExpression,
+        BinaryExpression,
+        ParenthesizedExpression
     }
 }

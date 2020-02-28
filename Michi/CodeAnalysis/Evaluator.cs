@@ -13,18 +13,18 @@ namespace Michi.CodeAnalysis
             this.root = root;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return EvaluateExpression(root);
         }
 
-        int EvaluateExpression(BoundExpression node)
+        object EvaluateExpression(BoundExpression node)
         {
-            if (node is BoundLiteralExpression n) { return (int) n.Value; }
+            if (node is BoundLiteralExpression n) { return n.Value; }
 
             if (node is BoundUnaryExpression u)
             {
-                int operand = EvaluateExpression(u.Operand);
+                var operand = (int) EvaluateExpression(u.Operand);
 
                 if (u.OperatorKind == BoundUnaryOperatorKind.Identity) { return operand; }
                 else if (u.OperatorKind == BoundUnaryOperatorKind.Negation) { return -operand; }
@@ -33,8 +33,8 @@ namespace Michi.CodeAnalysis
 
             if (node is BoundBinaryExpression b)
             { 
-                int left = EvaluateExpression(b.Left);
-                int right = EvaluateExpression(b.Right);
+                var left = (int) EvaluateExpression(b.Left);
+                var right = (int) EvaluateExpression(b.Right);
 
                 if (b.OperatorKind == BoundBinaryOperatorKind.Addition) { return left + right; }
                 else if (b.OperatorKind == BoundBinaryOperatorKind.Subtraction) { return left - right; }
