@@ -1,17 +1,23 @@
 namespace Michi.CodeAnalysis
 {
-    enum SyntaxKind
+    public enum SyntaxKind
     {
-        NumberToken,
+        // Tokens
+        BadToken,
         WhitespaceToken,
+        EndOfFileToken,
+        
+        NumberToken,
+        
         PlusToken,
         MinusToken,
-        SlashToken,
         StarToken,
+        SlashToken,
+        
         OpenParenthesisToken,
         CloseParenthesisToken,
-        BadToken,
-        EndOfFileToken,
+        
+        // Expressions
         NumberExpression,
         BinaryExpression,
         ParenthesizedExpression

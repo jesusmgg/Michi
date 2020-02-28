@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Michi.CodeAnalysis
 {
-    class Parser
+    sealed class Parser
     {
         int position;
         List<SyntaxToken> tokens = new List<SyntaxToken>();
@@ -45,24 +45,24 @@ namespace Michi.CodeAnalysis
             return current;
         }
         
-        SyntaxToken Match(SyntaxKind kind)
+        SyntaxToken MatchToken(SyntaxKind kind)
         {
             if (Current.Kind == kind) { return NextToken(); }
             
             diagnostics.Add($"ERROR: unexpected token <{Current.Kind}>, expected <{kind}>");
             return new SyntaxToken(kind, Current.Position, null, null);
         }
+        
+        public SyntaxTree Parse()
+        {
+            ExpressionSyntax expression = ParseExpression();
+            SyntaxToken endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
+            return new SyntaxTree(diagnostics, expression, endOfFileToken);
+        }
 
         ExpressionSyntax ParseExpression()
         {
             return ParseTerm();
-        }
-
-        public SyntaxTree Parse()
-        {
-            ExpressionSyntax expression = ParseExpression();
-            SyntaxToken endOfFileToken = Match(SyntaxKind.EndOfFileToken);
-            return new SyntaxTree(diagnostics, expression, endOfFileToken);
         }
 
         ExpressionSyntax ParseTerm()
@@ -101,12 +101,12 @@ namespace Michi.CodeAnalysis
             {
                 SyntaxToken left = NextToken();
                 ExpressionSyntax expression = ParseExpression();
-                SyntaxToken right = Match(SyntaxKind.CloseParenthesisToken);
+                SyntaxToken right = MatchToken(SyntaxKind.CloseParenthesisToken);
                 return new ParenthesizedExpressionSyntax(left, expression, right);
             }
             
-            SyntaxToken numberToken = Match(SyntaxKind.NumberToken);
-            return new NumberExpressionSyntax(numberToken);
+            SyntaxToken numberToken = MatchToken(SyntaxKind.NumberToken);
+            return new LiteralExpressionSyntax(numberToken);
         }
     }
 }

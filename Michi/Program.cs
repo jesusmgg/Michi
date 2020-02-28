@@ -6,7 +6,7 @@ namespace Michi
 {
     static class Program
     {
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             bool showTree = false;
             
@@ -73,7 +73,7 @@ namespace Michi
 
             Console.WriteLine();
 
-            indent += isLast ? "    " : "│   ";
+            indent += isLast ? "   " : "│   ";
 
             SyntaxNode lastChild = node.GetChildren().LastOrDefault();
 

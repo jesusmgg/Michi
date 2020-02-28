@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Michi.CodeAnalysis
 {
-    class Lexer
+    sealed class Lexer
     {
         string text;
         int position;

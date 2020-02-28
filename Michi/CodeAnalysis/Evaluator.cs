@@ -2,7 +2,7 @@ using System;
 
 namespace Michi.CodeAnalysis
 {
-    class Evaluator
+    sealed class Evaluator
     {
         ExpressionSyntax root;
         
@@ -18,7 +18,7 @@ namespace Michi.CodeAnalysis
 
         int EvaluateExpression(ExpressionSyntax node)
         {
-            if (node is NumberExpressionSyntax n) { return (int) n.NumberToken.Value; }
+            if (node is LiteralExpressionSyntax n) { return (int) n.LiteralToken.Value; }
 
             if (node is BinaryExpressionSyntax b)
             { 

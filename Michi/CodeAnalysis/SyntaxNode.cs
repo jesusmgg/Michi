@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Michi.CodeAnalysis
 {
-    abstract class SyntaxNode
+    public abstract class SyntaxNode
     {
         public abstract SyntaxKind Kind { get; }
 

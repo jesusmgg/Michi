@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Michi.CodeAnalysis
 {
-    sealed class SyntaxTree
+    public sealed class SyntaxTree
     {
         public IReadOnlyList<string> Diagnostics { get; }
         public ExpressionSyntax Root { get; }
