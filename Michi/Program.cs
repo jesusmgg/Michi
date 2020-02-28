@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Michi.CodeAnalysis;
+using Michi.CodeAnalysis.Binding;
 using Michi.CodeAnalysis.Syntax;
 
 namespace Michi
@@ -30,6 +32,10 @@ namespace Michi
                 }
                 
                 SyntaxTree syntaxTree = SyntaxTree.Parse(line);
+                Binder binder = new Binder();
+                BoundExpression boundExpression = binder.BindExpression(syntaxTree.Root);
+                
+                IReadOnlyList<string> diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 if (showTree)
                 {
@@ -39,21 +45,22 @@ namespace Michi
                     Console.ForegroundColor = color;    
                 }
 
-                if (syntaxTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
-                    var color = Console.ForegroundColor;
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    foreach (string diagnostic in syntaxTree.Diagnostics)
-                    {
-                        Console.WriteLine(diagnostic);
-                    }
-                    Console.ForegroundColor = color;    
+                    Evaluator e = new Evaluator(boundExpression);
+                    var result = e.Evaluate();
+                    Console.WriteLine(result);
                 }
                 else
                 {
-                    Evaluator e = new Evaluator(syntaxTree.Root);
-                    var result = e.Evaluate();
-                    Console.WriteLine(result);
+                    var color = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    foreach (string diagnostic in diagnostics)
+                    {
+                        Console.WriteLine(diagnostic);
+                    }
+
+                    Console.ForegroundColor = color;
                 }
             }
         }
