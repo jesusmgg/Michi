@@ -66,7 +66,7 @@ namespace Michi.CodeAnalysis
 
             while (true)
             {
-                int precedence = GetBinaryOperationPrecedence(Current.Kind);
+                int precedence = Current.Kind.GetBinaryOperationPrecedence();
                 if (precedence == 0 || precedence <= parentPrecedence) { break; }
 
                 SyntaxToken operatorToken = NextToken();
@@ -77,22 +77,7 @@ namespace Michi.CodeAnalysis
             return left;
         }
 
-        static int GetBinaryOperationPrecedence(SyntaxKind kind)
-        {
-            switch (kind)
-            {
-                case SyntaxKind.StarToken:
-                case SyntaxKind.SlashToken:
-                    return 2;
-                
-                case SyntaxKind.PlusToken:
-                case SyntaxKind.MinusToken:
-                    return 1;
-                
-                default: 
-                    return 0;
-            }
-        }
+        
 
         ExpressionSyntax ParsePrimaryExpression()
         {
