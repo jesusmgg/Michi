@@ -1,4 +1,4 @@
-namespace Michi.CodeAnalysis
+namespace Michi.CodeAnalysis.Syntax
 {
     static class SyntaxFacts
     {

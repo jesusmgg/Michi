@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Michi.CodeAnalysis;
+using Michi.CodeAnalysis.Syntax;
 
 namespace Michi
 {

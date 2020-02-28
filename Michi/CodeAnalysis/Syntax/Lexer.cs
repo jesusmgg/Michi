@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Michi.CodeAnalysis
+namespace Michi.CodeAnalysis.Syntax
 {
     sealed class Lexer
     {

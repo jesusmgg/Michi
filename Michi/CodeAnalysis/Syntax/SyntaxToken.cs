@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Michi.CodeAnalysis
+namespace Michi.CodeAnalysis.Syntax
 {
     public sealed class SyntaxToken : SyntaxNode
     {
