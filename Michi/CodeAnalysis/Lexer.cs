@@ -29,13 +29,8 @@ namespace Michi.CodeAnalysis
             position++;
         }
 
-        public SyntaxToken NextToken()
+        public SyntaxToken Lex()
         {
-            // Can read:
-            // <number>
-            // + - * / ( )
-            // <whitespace>
-
             if (position >= text.Length) { return new SyntaxToken(SyntaxKind.EndOfFileToken, position, "\0", null); }
 
             if (char.IsDigit(Current))
