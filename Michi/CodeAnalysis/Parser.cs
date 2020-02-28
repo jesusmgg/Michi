@@ -60,39 +60,38 @@ namespace Michi.CodeAnalysis
             return new SyntaxTree(diagnostics, expression, endOfFileToken);
         }
 
-        ExpressionSyntax ParseExpression()
-        {
-            return ParseTerm();
-        }
-
-        ExpressionSyntax ParseTerm()
-        {
-            ExpressionSyntax left = ParseFactor();
-
-            while (Current.Kind == SyntaxKind.PlusToken ||
-                   Current.Kind == SyntaxKind.MinusToken)
-            {
-                SyntaxToken operatorToken = NextToken();
-                ExpressionSyntax right = ParseFactor();
-                left = new BinaryExpressionSyntax(left, operatorToken, right);
-            }
-
-            return left;
-        }
-        
-        ExpressionSyntax ParseFactor()
+        ExpressionSyntax ParseExpression(int parentPrecedence = 0)
         {
             ExpressionSyntax left = ParsePrimaryExpression();
 
-            while (Current.Kind == SyntaxKind.StarToken ||
-                   Current.Kind == SyntaxKind.SlashToken)
+            while (true)
             {
+                int precedence = GetBinaryOperationPrecedence(Current.Kind);
+                if (precedence == 0 || precedence <= parentPrecedence) { break; }
+
                 SyntaxToken operatorToken = NextToken();
-                ExpressionSyntax right = ParsePrimaryExpression();
+                ExpressionSyntax right = ParseExpression(precedence);
                 left = new BinaryExpressionSyntax(left, operatorToken, right);
             }
 
             return left;
+        }
+
+        static int GetBinaryOperationPrecedence(SyntaxKind kind)
+        {
+            switch (kind)
+            {
+                case SyntaxKind.StarToken:
+                case SyntaxKind.SlashToken:
+                    return 2;
+                
+                case SyntaxKind.PlusToken:
+                case SyntaxKind.MinusToken:
+                    return 1;
+                
+                default: 
+                    return 0;
+            }
         }
 
         ExpressionSyntax ParsePrimaryExpression()
