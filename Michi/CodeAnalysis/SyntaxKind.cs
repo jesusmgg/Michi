@@ -18,7 +18,7 @@ namespace Michi.CodeAnalysis
         CloseParenthesisToken,
         
         // Expressions
-        NumberExpression,
+        LiteralExpression,
         BinaryExpression,
         ParenthesizedExpression
     }
