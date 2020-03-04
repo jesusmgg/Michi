@@ -1,6 +1,5 @@
 using System;
 using Michi.CodeAnalysis.Binding;
-using Michi.CodeAnalysis.Syntax;
 
 namespace Michi.CodeAnalysis
 {
